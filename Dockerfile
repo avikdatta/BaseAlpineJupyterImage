@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM docker pull python:3.5-alpine3.7
 MAINTAINER reach4avik@yahoo.com
 LABEL maintainer="avikdatta"
 
@@ -21,9 +21,6 @@ RUN apk update; \
     apk --update add --no-cache --force-broken-world \
         gcc \
         g++ \
-        python3 \
-        python3-dev \
-        pip3 \
         .build-deps \
         build-base \
         libbz2-dev \
@@ -35,6 +32,10 @@ RUN apk update; \
         locales \
         texlive-xetex \
         zlib1g-dev 
+        
+      #python3 \
+      #  python3-dev \
+      #  pip3 \
       
 RUN apk add --no-cache --force-broken-world \
     git                    \
@@ -58,10 +59,10 @@ RUN apk add --no-cache --force-broken-world \
     ca-certificates      
 
  
-RUN pip3 install --upgrade pip setuptools && \
-    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-    rm -r /root/.cache
+#RUN pip3 install --upgrade pip setuptools && \
+#    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+#    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+#    rm -r /root/.cache
     
 RUN pip install --no-cache-dir -q jupyter jupyterlab
 
