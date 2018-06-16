@@ -57,7 +57,7 @@ RUN apk add --no-cache --force-broken-world \
     openssl                \
     ca-certificates      
 
-RUN pip install --no-cache-dir -q jupyter jupyterlab
+RUN pip3 install --no-cache-dir -q jupyter jupyterlab
 
 USER $NB_USER
 WORKDIR /home/$NB_USER
