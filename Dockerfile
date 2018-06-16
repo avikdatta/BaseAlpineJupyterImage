@@ -57,10 +57,6 @@ RUN apk add --no-cache --force-broken-world \
     openssl                \
     ca-certificates      
 
-RUN apk add --no-cache --force-broken-world \
-    useradd \
-    groupadd \
-    usermod
  
 RUN pip3 install --upgrade pip setuptools && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
@@ -69,10 +65,8 @@ RUN pip3 install --upgrade pip setuptools && \
     
 RUN pip install --no-cache-dir -q jupyter jupyterlab
 
-RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER \
-     && groupadd $NB_GROUP \
-     && usermod -a -G $NB_GROUP $NB_USER
-     
+RUN addgroup -S $NB_GROUP && adduser -S -G $NB_GROUP $NB_USER
+
 USER $NB_USER
 WORKDIR /home/$NB_USER
 
