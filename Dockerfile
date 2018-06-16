@@ -1,4 +1,4 @@
-FROM docker pull python:3.5-alpine3.7
+FROM python:3.5-alpine3.7
 MAINTAINER reach4avik@yahoo.com
 LABEL maintainer="avikdatta"
 
