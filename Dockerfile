@@ -56,13 +56,26 @@ RUN apk add --no-cache --force-broken-world \
     texlive-xetex          \
     openssl                \
     ca-certificates      
+    
+RUN pip3 install --upgrade pip setuptools && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+    rm -r /root/.cache
+    
+RUN pip install --no-cache-dir -q jupyter jupyterlab
 
-RUN pip3 install --no-cache-dir -q jupyter jupyterlab
-
+RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER \
+     && groupadd $NB_GROUP \
+     && usermod -a -G $NB_GROUP $NB_USER
+     
 USER $NB_USER
 WORKDIR /home/$NB_USER
 
-RUN mkdir -p /home/$NB_USER/.jupyter
+RUN mkdir -p /home/$NB_USER/.jupyter;\
+    mkdir -p /home/$NB_USER/tmp
+ 
+ENV TMPDIR=/home/$NB_USER/tmp
+
 RUN echo "c.NotebookApp.password = u'sha1:c991cd11a7cc:f4c7bd274c69271f7333ea24bfe85103566464de'" > /home/$NB_USER/.jupyter/jupyter_notebook_config.py
 
 EXPOSE 8888
